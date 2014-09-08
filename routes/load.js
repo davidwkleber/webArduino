@@ -20,10 +20,10 @@ console.log('load get');
 
 router.post('/', function(req, res, next){
 console.log('load post');
-	var spinnerValue = req.body.value;
+	var spinnerValue = req.body.loadSliderValue;
 	// res.render('load', {seeValue: spinnerValue });
 	res.render('index', {title: 'Wind Lab', load_seeValue: spinnerValue });
-	serialListener.write('g', spinnerValue);
+	serialListener.write('g', spinnerValue + serialListener.delimiter);
 
 })
 

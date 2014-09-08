@@ -20,9 +20,9 @@ console.log('pitchAngle get');
 
 router.post('/', function(req, res, next){
 console.log('pitchAngle post');
-	var spinnerValue = req.body.value;
+	var spinnerValue = req.body.pitchAngleSliderValue;
 	res.render('index', {title: 'Wind Lab', PAseeValue: spinnerValue });
-	serialListener.write('y', spinnerValue);
+	serialListener.write('y', spinnerValue + serialListener.delimiter);
 
 })
 

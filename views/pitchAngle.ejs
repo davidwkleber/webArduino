@@ -21,6 +21,20 @@
  
     $( "button" ).button();
   });
+    $(function() {
+    $( "#pitchAngleSlider-vertical" ).slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 10,
+      value: 6,
+      slide: function( event, ui ) {
+        $( "#pitchAngleSliderValue" ).val( ui.value );
+      }
+    });
+    $( "#pitchAngleSliderValue" ).val( $( "#pitchAngleSlider-vertical" ).slider( "value" ) );
+	
+  });
   </script>
 </head>
 <body>
@@ -33,6 +47,12 @@
 <p>
   <button id="getvalue" name="getvalue" type="submit">Get value</button>
 </p>
+<p>
+  <label for="pitchAngleSliderValue">Wind Speed:</label>
+  <input type="text" id="pitchAngleSliderValue" name="pitchAngleSliderValue" readonly style="border:0; color:#f6931f; font-weight:bold;">
+</p>
+ 
+<div id="pitchAngleSlider-vertical" style="height:200px;"></div>
 
 <% if (locals.PAseeValue) { %>
 <textarea id="PAseeValue" name="PAseeValue" ><%= PAseeValue %></textarea>

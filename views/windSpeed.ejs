@@ -19,6 +19,20 @@
  
     $( "button" ).button();
   });
+   $(function() {
+    $( "#windSpeedSlider-vertical" ).slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 10,
+      value: 6,
+      slide: function( event, ui ) {
+        $( "#windSpeedSliderValue" ).val( ui.value );
+      }
+    });
+    $( "#windSpeedSliderValue" ).val( $( "#windSpeedSlider-vertical" ).slider( "value" ) );
+	
+  });
   </script>
 </head>
 <body>
@@ -31,6 +45,14 @@
 <p>
   <button id="getvalue" name="getvalue" type="submit">Get value</button>
 </p>
+
+<p>
+  <label for="windSpeedSliderValue">Wind Speed:</label>
+  <input type="text" id="windSpeedSliderValue" name="windSpeedSliderValue" readonly style="border:0; color:#f6931f; font-weight:bold;">
+</p>
+ 
+<div id="windSpeedSlider-vertical" style="height:200px;"></div>
+ 
  
  <% if (locals.seeValue) { %>
 <textarea id="seeValue" name="seeValue" ><%= seeValue %></textarea>

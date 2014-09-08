@@ -20,11 +20,13 @@ console.log('windSpeed get');
 
 router.post('/', function(req, res, next){
 console.log('windSpeed post');
-	var spinnerValue = req.body.value;
+	var spinnerValue = req.body.windSpeedSliderValue;
+	console.log('windSpeedSliderValue: '+req.body.windSpeedSliderValue);
+	
 	// res.render('windSpeed', {seeValue: spinnerValue });
 	res.render('index', {title: 'Wind Lab', seeValue: spinnerValue });
 		
-	serialListener.write('r', spinnerValue);
+	serialListener.write('r', spinnerValue + serialListener.delimiter );
    
 })
 
