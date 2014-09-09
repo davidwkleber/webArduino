@@ -32,4 +32,19 @@ for /f "tokens=* delims= " %%j in ('reg query "%BaseKey%" /F PortName /S^| finds
   )
 )
 
+set "Pattern3=VID_1FFB&PID_009E"
+
+for /f "tokens=* delims= " %%j in ('reg query "%BaseKey%" /F PortName /S^| findstr "%Pattern3%"') do (
+  set "str5=%%j"
+  set str5=!str5:HKEY_LOCAL_MACHINE=HKLM!
+  REM echo !str5!
+  for /f "tokens=3 delims= " %%B in ('reg query "!str5!" /F PortName /S ^|findstr "COM*"') do (
+    set str6=!str5:\Device Parameters=!
+    REM echo !str6!
+    for /f "tokens=3,8 delims= " %%d in ('reg query "!str6!" /f FriendlyName /S^| findstr "Pololu"') do (
+    echo %%d %%e: %%B
+ )
+  )
+)
+
 Pause
