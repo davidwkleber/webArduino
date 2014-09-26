@@ -1,3 +1,10 @@
+#include <JsonGenerator.h>
+#include <JsonParser.h>
+
+using namespace ArduinoJson::Generator;
+
+
+
 //
 #define FASTADC 1
 // defines for setting and clearing register bits
@@ -19,10 +26,13 @@ int readAnalog;
 
 String msg = "";
 
-int lastTime = 0;
-int currTime1 = 0;
-int currTime2 = 0;
-int meassureTime = 0;
+unsigned long lastTime = 0;
+long currTime= 0;
+unsigned long currTime1 = 0;
+unsigned long currTime2 = 0;
+unsigned long meassureTime = 0;
+
+int buad = 9600;
 
 
 
@@ -37,7 +47,7 @@ void setup()
 	#endif
 
 
-	Serial.begin(9600);
+	Serial.begin(buad);
 
 }
 
@@ -140,26 +150,55 @@ void loop()
 		readA0=analogRead(A0);
 		readA1=analogRead(A1);
 		readA2=analogRead(A2);
-		readA3=analogRead(A3);
-		readA4=analogRead(A4);
-		readA5=analogRead(A5);
+		//readA3=analogRead(A3);
+		//readA4=analogRead(A4);
+		//readA5=analogRead(A5);
 		currTime2 = micros();
-		Serial.print("A0 - A5, Measurement Time, Time since Start: ");
-		Serial.print(readA0,DEC);
-		Serial.print(",");
-		Serial.print(readA1,DEC);
-		Serial.print(",");
-		Serial.print(readA2,DEC);
-		Serial.print(",");
-		Serial.print(readA3,DEC);
-		Serial.print(",");
-		Serial.print(readA4,DEC);
-		Serial.print(",");
-		Serial.print(readA5,DEC);
-		Serial.print(", ");
-		Serial.print(currTime2-currTime1);
-		Serial.print(", ");
-		Serial.println(micros());
+		//Serial.print("A0 - A5, Measurement Time, Time since Start: ");
+		//Serial.print(readA0,DEC);
+		//Serial.print(",");
+		//Serial.print(readA1,DEC);
+		//Serial.print(",");
+		//Serial.print(readA2,DEC);
+		//Serial.print(",");
+		//Serial.print(readA3,DEC);
+		//Serial.print(",");
+		//Serial.print(readA4,DEC);
+		//Serial.print(",");
+		//Serial.print(readA5,DEC);
+		//Serial.print(", ");
+		//Serial.print(currTime2-currTime1);
+		//Serial.print(", ");
+		//Serial.println(micros());
+		//JsonArray<1> time;
+		//time.add<0> (micros());
+		
+		
+		currTime = long(currTime2);
+		
+		JsonObject<3> volt;
+		volt["name"] = "voltage";
+		volt["value"] = readA0;
+		volt["timestamp"] = currTime;
+		
+		JsonObject<3> amp;
+		amp["name"] = "current";
+		amp["value"] = readA1;
+		amp["timestamp"] = currTime;
+		
+		JsonObject<3> rpm;
+		rpm["name"] = "rpm";
+		rpm["value"] = readA2;
+		rpm["timestamp"] = currTime;
+		
+		//Serial.print(volt);
+		//Serial.print(amp);
+		//Serial.println(rpm);
+		
+		volt.prettyPrintTo(Serial);
+		amp.prettyPrintTo(Serial);
+		rpm.prettyPrintTo(Serial);
+		
 	}
 	else if (msg.equals("S"))
 	{
