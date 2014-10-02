@@ -49,7 +49,7 @@ void setup()
 
 
 	Serial.begin(buad);
-        Serial.println("Ready");
+	Serial.println("Ready");
 
 }
 
@@ -65,14 +65,14 @@ void loop()
 			msg+=char(Serial.read());
 			delay(10);
 		}
-//                Serial.print("msg1: ");
-//		Serial.println(msg);
+		//                Serial.print("msg1: ");
+		//		Serial.println(msg);
 	}
 
 	//int number = msg.substring(1);
 	msg = msg.substring(0,2);
-        
-        
+	
+	
 	if (msg.equals("A0"))
 	{
 		currTime1 = micros();
@@ -154,7 +154,7 @@ void loop()
 		readA0=analogRead(A0);
 		readA1=analogRead(A1);
 		readA2=analogRead(A2);
-                Power =long(readA0)*long(readA1);
+		Power =long(readA0)*long(readA1);
 		//readA3=analogRead(A3);
 		//readA4=analogRead(A4);
 		//readA5=analogRead(A5);
@@ -209,7 +209,8 @@ void loop()
 		volt.prettyPrintTo(Serial);
 		amp.prettyPrintTo(Serial);
 		rpm.prettyPrintTo(Serial);
-                PWR.prettyPrintTo(Serial);
+		PWR.prettyPrintTo(Serial);
+		Serial.println();
 		
 	}
 	else if (msg.equals("S"))
