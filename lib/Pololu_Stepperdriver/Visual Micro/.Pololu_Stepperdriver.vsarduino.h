@@ -28,4 +28,4 @@ void testfunktion1(long steps);
 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\variants\standard\pins_arduino.h" 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino\arduino.h"
-#include "C:\Users\install\ownCloud\Eigenes\Arduino\Pololu_Stepperdriver\Pololu_Stepperdriver.ino"
+#include "C:\Users\install\ownCloud\Eigenes\Programme\webArduino\lib\Pololu_Stepperdriver\Pololu_Stepperdriver.ino"
