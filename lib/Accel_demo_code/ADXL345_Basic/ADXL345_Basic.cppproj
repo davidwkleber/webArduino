@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>ADC_Stream</AssemblyName>
-    <Name>ADC_Stream</Name>
-    <RootNamespace>ADC_Stream</RootNamespace>
+    <AssemblyName>ADXL345_Basic</AssemblyName>
+    <Name>ADXL345_Basic</Name>
+    <RootNamespace>ADXL345_Basic</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -27,14 +27,13 @@
     <UncachedRange />
     <BootSegment>0</BootSegment>
     <AsfFrameworkConfig>
-      <framework-data>
+      <framework-data xmlns="">
         <options />
         <configurations />
         <files />
         <documentation help="" />
-        <offline-documentation help="" />
         <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.3.0" />
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.7.2" />
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
@@ -63,8 +62,8 @@
           <ListValues>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino</Value>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\variants\standard</Value>
-            <Value>C:\Users\install\ownCloud\Eigenes\Arduino\libraries\ArduinoJson</Value>
-            <Value>C:\Users\install\ownCloud\Eigenes\Arduino\libraries\ArduinoJson\utility</Value>
+            <Value>C:\Program Files (x86)\Arduino\libraries\SPI</Value>
+            <Value>C:\Program Files (x86)\Arduino\libraries\SPI\utility</Value>
             <Value>C:\Program Files (x86)\Arduino\libraries</Value>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\libraries</Value>
             <Value>C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers</Value>
@@ -98,8 +97,8 @@
           <ListValues>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino</Value>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\variants\standard</Value>
-            <Value>C:\Users\install\ownCloud\Eigenes\Arduino\libraries\ArduinoJson</Value>
-            <Value>C:\Users\install\ownCloud\Eigenes\Arduino\libraries\ArduinoJson\utility</Value>
+            <Value>C:\Program Files (x86)\Arduino\libraries\SPI</Value>
+            <Value>C:\Program Files (x86)\Arduino\libraries\SPI\utility</Value>
             <Value>C:\Program Files (x86)\Arduino\libraries</Value>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\libraries</Value>
             <Value>C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers</Value>
@@ -123,68 +122,8 @@
       </AvrGccCpp>
     </ToolchainSettings>
     <VisualMicroSettings>
-      <VisualMicroSettings>
-        <arduino.upload.port>COM13</arduino.upload.port>
-        <arduino.board.name>uno</arduino.board.name>
-        <arduino.board.desc>Arduino Uno</arduino.board.desc>
-        <arduino.board.property_bag>name=Arduino Uno
-upload.protocol=arduino
-upload.maximum_size=32256
-upload.speed=115200
-bootloader.low_fuses=0xff
-bootloader.high_fuses=0xde
-bootloader.extended_fuses=0x05
-bootloader.path=optiboot
-bootloader.file=optiboot_atmega328.hex
-bootloader.unlock_bits=0x3F
-bootloader.lock_bits=0x0F
-build.mcu=atmega328p
-build.f_cpu=16000000L
-build.core=arduino
-build.variant=standard
-runtime.ide.path=C:\Program Files (x86)\Arduino
-build.system.path=C:\Program Files (x86)\Arduino\hardware\arduino\system
-runtime.ide.version=105
-originalid=uno
-vm.platform.root.path=C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\arduino10x
-vm.core.include=arduino.h
-ide.hint=Arduino 0023 and 1.0.x Ide
-ide.location.key=Arduino
-ide.location.ide.winreg=Arduino 1.0.x Application
-ide.location.sketchbook.winreg=Arduino 1.0.x Sketchbook
-ide.location.sketchbook.preferences=sketchbook.path
-ide.location.sketchbook.default=%MYDOCUMENTS%\arduino
-ide.location.preferences=%VM_APPDATA_ROAMING%\arduino\preferences.txt
-ide.default.package=arduino
-ide.default.platform=avr
-ide.multiplatform=true
-ide.includes=arduino.h
-ide.platformswithoutpackage=true
-ide.includes.fallback=wprogram.h
-ide.extension=ino
-ide.extension.fallback=pde
-ide.versionLTEQ=149
-ide.exe=arduino.exe
-ide.hosts=atmel
-ide.url=http://arduino.cc/en/Main/Software
-vm.debug=true
-software=ARDUINO
-ide.appid=arduino10x
-location.sketchbook=C:\Users\install\ownCloud\Eigenes\Arduino
-build.board=AVR_UNO
-vm.boardsource.path=C:\Program Files (x86)\Arduino\hardware\arduino
-vm.platformname.name=avr
-build.arch=AVR
-</arduino.board.property_bag>
-        <arduino.build.mcu>atmega328p</arduino.build.mcu>
-        <arduino.build.f_cpu>16000000L</arduino.build.f_cpu>
-        <arduino.build.core>arduino</arduino.build.core>
-        <arduino.upload.protocol>arduino</arduino.upload.protocol>
-        <arduino.upload.speed>115200</arduino.upload.speed>
-        <arduino.upload.maximum_size>32256</arduino.upload.maximum_size>
-        <visualmicro.application.name>arduino10x</visualmicro.application.name>
-        <visualmicro.package.name>arduino</visualmicro.package.name>
-        <visualmicro.platform.name>avr</visualmicro.platform.name>
+      <VisualMicroSettings xmlns="">
+        <arduino.upload.port>COM9</arduino.upload.port>
       </VisualMicroSettings>
     </VisualMicroSettings>
   </PropertyGroup>
@@ -212,8 +151,8 @@ build.arch=AVR
           <ListValues>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino</Value>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\variants\standard</Value>
-            <Value>C:\Users\install\ownCloud\Eigenes\Arduino\libraries\ArduinoJson</Value>
-            <Value>C:\Users\install\ownCloud\Eigenes\Arduino\libraries\ArduinoJson\utility</Value>
+            <Value>C:\Program Files (x86)\Arduino\libraries\SPI</Value>
+            <Value>C:\Program Files (x86)\Arduino\libraries\SPI\utility</Value>
             <Value>C:\Program Files (x86)\Arduino\libraries</Value>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\libraries</Value>
             <Value>C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers</Value>
@@ -247,8 +186,8 @@ build.arch=AVR
           <ListValues>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino</Value>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\variants\standard</Value>
-            <Value>C:\Users\install\ownCloud\Eigenes\Arduino\libraries\ArduinoJson</Value>
-            <Value>C:\Users\install\ownCloud\Eigenes\Arduino\libraries\ArduinoJson\utility</Value>
+            <Value>C:\Program Files (x86)\Arduino\libraries\SPI</Value>
+            <Value>C:\Program Files (x86)\Arduino\libraries\SPI\utility</Value>
             <Value>C:\Program Files (x86)\Arduino\libraries</Value>
             <Value>C:\Program Files (x86)\Arduino\hardware\arduino\libraries</Value>
             <Value>C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers</Value>
@@ -272,73 +211,13 @@ build.arch=AVR
       </AvrGccCpp>
     </ToolchainSettings>
     <VisualMicroSettings>
-      <VisualMicroSettings>
-        <arduino.upload.port>COM13</arduino.upload.port>
-        <arduino.board.name>uno</arduino.board.name>
-        <arduino.board.desc>Arduino Uno</arduino.board.desc>
-        <arduino.board.property_bag>name=Arduino Uno
-upload.protocol=arduino
-upload.maximum_size=32256
-upload.speed=115200
-bootloader.low_fuses=0xff
-bootloader.high_fuses=0xde
-bootloader.extended_fuses=0x05
-bootloader.path=optiboot
-bootloader.file=optiboot_atmega328.hex
-bootloader.unlock_bits=0x3F
-bootloader.lock_bits=0x0F
-build.mcu=atmega328p
-build.f_cpu=16000000L
-build.core=arduino
-build.variant=standard
-runtime.ide.path=C:\Program Files (x86)\Arduino
-build.system.path=C:\Program Files (x86)\Arduino\hardware\arduino\system
-runtime.ide.version=105
-originalid=uno
-vm.platform.root.path=C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\arduino10x
-vm.core.include=arduino.h
-ide.hint=Arduino 0023 and 1.0.x Ide
-ide.location.key=Arduino
-ide.location.ide.winreg=Arduino 1.0.x Application
-ide.location.sketchbook.winreg=Arduino 1.0.x Sketchbook
-ide.location.sketchbook.preferences=sketchbook.path
-ide.location.sketchbook.default=%MYDOCUMENTS%\arduino
-ide.location.preferences=%VM_APPDATA_ROAMING%\arduino\preferences.txt
-ide.default.package=arduino
-ide.default.platform=avr
-ide.multiplatform=true
-ide.includes=arduino.h
-ide.platformswithoutpackage=true
-ide.includes.fallback=wprogram.h
-ide.extension=ino
-ide.extension.fallback=pde
-ide.versionLTEQ=149
-ide.exe=arduino.exe
-ide.hosts=atmel
-ide.url=http://arduino.cc/en/Main/Software
-vm.debug=true
-software=ARDUINO
-ide.appid=arduino10x
-location.sketchbook=C:\Users\install\ownCloud\Eigenes\Arduino
-build.board=AVR_UNO
-vm.boardsource.path=C:\Program Files (x86)\Arduino\hardware\arduino
-vm.platformname.name=avr
-build.arch=AVR
-</arduino.board.property_bag>
-        <arduino.build.mcu>atmega328p</arduino.build.mcu>
-        <arduino.build.f_cpu>16000000L</arduino.build.f_cpu>
-        <arduino.build.core>arduino</arduino.build.core>
-        <arduino.upload.protocol>arduino</arduino.upload.protocol>
-        <arduino.upload.speed>115200</arduino.upload.speed>
-        <arduino.upload.maximum_size>32256</arduino.upload.maximum_size>
-        <visualmicro.application.name>arduino10x</visualmicro.application.name>
-        <visualmicro.package.name>arduino</visualmicro.package.name>
-        <visualmicro.platform.name>avr</visualmicro.platform.name>
+      <VisualMicroSettings xmlns="">
+        <arduino.upload.port>COM9</arduino.upload.port>
       </VisualMicroSettings>
     </VisualMicroSettings>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="ADC_Stream.ino">
+    <None Include="ADXL345_Basic.ino">
       <SubType>compile</SubType>
     </None>
   </ItemGroup>
@@ -346,7 +225,7 @@ build.arch=AVR
     <Folder Include="Visual Micro\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Visual Micro\.ADC_Stream.vsarduino.h">
+    <Compile Include="Visual Micro\.ADXL345_Basic.vsarduino.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
