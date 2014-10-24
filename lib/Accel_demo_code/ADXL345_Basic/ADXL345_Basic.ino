@@ -51,7 +51,7 @@ void setup(){
 	//Put the ADXL345 set the g range 0x0b is full res +-16g Mode
 	writeRegister(DATA_FORMAT, 0x0b);
 	//Set the Bandwidth to 200Hz
-	writeRegister(BW_Rate,0x0b);
+	writeRegister(BW_Rate,0x0f);
 	//Put the ADXL345 into Measurement Mode by writing 0x08 to the POWER_CTL register.
 	writeRegister(POWER_CTL, 0x08);  //Measurement mode
 
