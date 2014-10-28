@@ -34,7 +34,7 @@ void setup() {
   // List all the available serial ports:
   printArray(Serial.list());
   // First port [0] in serial list is usually Arduino, but *check every time*:
-  myPort = new Serial(this, Serial.list()[1], 115200);
+  myPort = new Serial(this, Serial.list()[0], 115200);
   // don't generate a serialEvent() until you get a newline character:
   myPort.bufferUntil('\n');
  
