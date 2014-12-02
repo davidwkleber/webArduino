@@ -8,6 +8,9 @@ int lastTime=0;
 int deltaTime=0;
 static int numSamples = 16;
 
+static int INT_1 = 2; //interrupt recognition pin
+static boolean DEBUG = false;
+boolean S_PRINT = false; // switch for realizing if the FIFO Buffer is full and only than is written to the serial port
 
 //This is a list of some of the registers available on the ADXL345.
 //To learn more about these and the rest of the registers on the ADXL345, read the datasheet!
@@ -21,17 +24,24 @@ static char DATAZ0 = 0x36;	//Z-Axis Data 0
 static char DATAZ1 = 0x37;	//Z-Axis Data 1
 static char BW_Rate = 0x2c; //Set BW
 static char FIFO = 0x38; //Setting up the FIFO Buffer
+static char INT_MAP = 0x2f; // 0x00 for Int1 or 0x80 for Int2
+static char INT_ENABLED = 0x2e;
 
-static long buad = 115200;
+
+
+static long buad = 115200; //Baud rate
+
+
 
 //This buffer will hold values read from the ADXL345 registers.
-char values[10];
+char values[6];
 //These variables will be used to hold the x,y and z axis accelerometer values.
 int x,y,z;
+int x_,y_,z_;
 int xg,yg,zg;
 //int g;
 
-word x0,x1,y0,y1,z0,z1;
+byte x0[16],x1[16],y0[16],y1[16],z0[16],z1[16];
 
 //mg conversion (10-bit mode)
 //+-2000 mg mode 3.90625 (DATA_FORMAT,0x00)
@@ -39,8 +49,9 @@ word x0,x1,y0,y1,z0,z1;
 //+-8000 mg mode 15.625 (DATA_FORMAT,0x02)
 //+-16000 mg mode 31.25 (DATA_FORMAT,0x03)
 //float multiplier= 3.90625; // in fullResMode multipliere is like -+2000mg mode
-float multiplier = 0.9765625;
-int g_correction = 0;
+
+//float multiplier = 0.9765625; // no multiplier means 1mg/LSB !!!!
+
 
 
 
@@ -52,20 +63,32 @@ void setup(){
 	//Create a serial connection to display the data on the terminal.
 	Serial.begin(buad);
 	
+	
 	//Set up the Chip Select pin to be an output from the Arduino.
 	pinMode(CS, OUTPUT);
+	//Setup Interrupt recognition on Int1 Pin of the ADXL345
+	pinMode(INT_1,INPUT);
+	
+	
 	//Before communication starts, the Chip Select pin needs to be set high.
 	digitalWrite(CS, HIGH);
-	
 	//Put the ADXL345 set the g range 0x0b is full res +-16g Mode
 	writeRegister(DATA_FORMAT, 0x0b);
+	
+	//Setup for 16x Oversampling with System Bandwidth of 100Hz (results into Output Data Rate of 200Hz)
+	
 	//Set the Bandwidth to 1600Hz
 	writeRegister(BW_Rate,0x0f);
+	//Setting up the FIFO Buffer to 16 samples
+	writeRegister(FIFO,0x50);
+	//configure watermark interrupt
+	writeRegister(INT_MAP,0x00);
+	//enable watermark interrupt bit D0 (Overrun)
+	writeRegister(INT_ENABLED,0x01);
+	
+	
 	//Put the ADXL345 into Measurement Mode by writing 0x08 to the POWER_CTL register.
 	writeRegister(POWER_CTL, 0x08);  //Measurement mode
-	//Setting up the FIFO Buffer for 16x Oversampling (16 FIFO Samples)
-	writeRegister(FIFO,0x10);
-	
 	
 	
 	
@@ -76,19 +99,39 @@ void loop(){
 	//Reading 6 bytes of data starting at register DATAX0 will retrieve the x,y and z acceleration values from the ADXL345.
 	//The results of the read operation will get stored to the values[] buffer.
 	int counterSamples = numSamples;// - 1 ;// 16 Samples - 1 for the while loop
-	while(counterSamples)
+	if (digitalRead(2))
 	{
-		readRegister(DATAX0, 6, values);
-		
-		x0 +=(byte)values[0];
-		x1 +=(byte)values[1];
-		y0 +=(byte)values[2];
-		y1 +=(byte)values[3];
-		z0 +=(byte)values[4];
-		z1 +=(byte)values[5];
-		//Serial.println(x0,BIN);
-		--counterSamples;
+		while(counterSamples)
+		{
+			readRegister(DATAX0, 6, values);
+			//Serial.println(counterSamples);
+			x0[counterSamples-1]=(byte)values[0];
+			x1[counterSamples-1]=(byte)values[1];
+			y0[counterSamples-1]=(byte)values[2];
+			y1[counterSamples-1]=(byte)values[3];
+			z0[counterSamples-1]=(byte)values[4];
+			z1[counterSamples-1]=(byte)values[5];
+			//Serial.print((word)x1[counterSamples-1]<<12>>4,BIN);
+			//Serial.print(",");
+			//Serial.println(x0[counterSamples-1],BIN);
+			//Serial.print((byte)values[1],BIN);
+			//Serial.print(",");
+			//Serial.println((byte)values[0],BIN);
+			memset(values,0,sizeof(values)); //empty the array and set every entry to 0
+			--counterSamples;
 
+		}
+		S_PRINT=true;
+	}
+	else
+	{
+		memset(x0,0,sizeof(x0)); //empty the array and set every entry to 0
+		memset(x1,0,sizeof(x1)); //empty the array and set every entry to 0
+		memset(y0,0,sizeof(y0)); //empty the array and set every entry to 0
+		memset(y1,0,sizeof(y1)); //empty the array and set every entry to 0
+		memset(z0,0,sizeof(z0)); //empty the array and set every entry to 0
+		memset(z1,0,sizeof(z1)); //empty the array and set every entry to 0
+		S_PRINT=false;
 	}
 	
 	//Serial.print("X0: ");
@@ -105,7 +148,7 @@ void loop(){
 	//Serial.print(",");
 	//Serial.print("Z0: ");
 	//Serial.print(z0,BIN);
-	//Serial.print(",");	
+	//Serial.print(",");
 	//Serial.print("Z1: ");
 	//Serial.println(z1,BIN);
 	
@@ -119,21 +162,79 @@ void loop(){
 	//z = (int)((byte)values[5]<<8)|(byte)values[4];
 	//
 
+//
+	//if(DEBUG && S_PRINT)
+	//{
+		//Serial.println("----------------");
+		//for(int b = 0; b<16;b++)
+		//{
+			//Serial.print("x_: ");
+			//Serial.print((int)((x1[b]<<12)>>4)|x0[b]);
+			//Serial.print(", ");
+			//Serial.print("y_: ");
+			//Serial.print((int)((y1[b]<<12)>>4)|y0[b]);
+			//Serial.print(", ");
+			//Serial.print("z_: ");
+			//Serial.println((int)((z1[b]<<12)>>4)|z0[b]);
+		//}
+		//Serial.println("----------------");
+	//}
+	//
+	
+	x_=0;
+	y_=0;
+	z_=0;
+	
+	
+	//summing all together
+	for(int i = 0; i<16;i++)
+	{
+		x_ += (int)((x1[i]<<12)>>4)|x0[i];
+		y_ += (int)((y1[i]<<12)>>4)|y0[i];
+		z_ += (int)((z1[i]<<12)>>4)|z0[i];
+	}
+	//
+	//if(DEBUG && S_PRINT)
+	//{
+		//Serial.print("x_sum:");
+		//Serial.print(x_);
+		//Serial.print(", ");
+		//Serial.print("y_sum:");
+		//Serial.print(y_);
+		//Serial.print(", ");
+		//Serial.print("z_sum:");
+		//Serial.println(z_);
+	//}
+	
+	
 	// 2x right shift for division by 4
-	x = (int)((x1<<8|x0)>>2);
-	y = (int)((y1<<8|y0)>>2);
-	z = (int)((z1<<8|z0)>>2);
+	x=x_ >>2;
+	y=y_ >>2;
+	z=z_ >>2;
 	
-	xg = (int)((float)x * multiplier)-g_correction;
-	yg = (int)((float)y * multiplier)-g_correction;
-	zg = (int)((float)z * multiplier)-g_correction;
+//
+	//if(DEBUG && S_PRINT)
+	//{
+		//Serial.print("x:");
+		//Serial.print(x);
+		//Serial.print(", ");
+		//Serial.print("y:");
+		//Serial.print(y);
+		//Serial.print(", ");
+		//Serial.print("z:");
+		//Serial.println(z);
+	//}
+//
+//
+
+
+	//xg = (int)((float)x * multiplier);
+	//yg = (int)((float)y * multiplier);
+	//zg = (int)((float)z * multiplier);
 	
-	x0= 0;
-	x1=0;
-	y0=0;
-	y1=0;
-	z0=0;
-	z1=0;
+	
+	
+
 	
 	//Serial.println(x0);
 	//Serial.println(x1);
@@ -167,15 +268,21 @@ void loop(){
 	//Serial.print(", ");
 	//Serial.println(z);
 	
-	Serial.print(xg, DEC);
-	Serial.print(',');
-	Serial.print(yg, DEC);
-	Serial.print(',');
-	Serial.print(zg, DEC);
-	Serial.print(',');
-	Serial.println(deltaTime,DEC);
 	
-	lastTime=nowTime;
+	if(S_PRINT)	
+	{
+		Serial.print(x, DEC);
+		Serial.print(',');
+		Serial.print(y, DEC);
+		Serial.print(',');
+		Serial.print(z, DEC);
+		Serial.print(',');
+		Serial.println(deltaTime,DEC);
+		S_PRINT=false;
+		lastTime=nowTime;
+	}
+	
+	
 	//delay(2);
 }
 

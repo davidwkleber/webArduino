@@ -211,6 +211,7 @@ void loop()
 		rpm.prettyPrintTo(Serial);
 		PWR.prettyPrintTo(Serial);
 		Serial.println();
+		Serial.println("EOL");
 		
 	}
 	else if (msg.equals("S"))
