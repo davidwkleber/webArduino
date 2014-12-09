@@ -14,6 +14,13 @@
 
 
 bool debug = false;
+static uint8_t DAC_addr = 0x60;
+// static char VrefSet = 0x18; //11000: Vref1;Vref0;PD1;PD0;G
+
+#ifdef MCP4726_CMD_WRITEDAC
+#undef MCP4726_CMD_WRITEDAC
+#define MCP4726_CMD_WRITEDAC (0x58)
+#endif
 
 
 int readA0;
@@ -93,7 +100,7 @@ void setup()
 
 	TWBR = 12; // set I2C Speed to 400 kHz
 
-	dac.begin(0x60);
+	dac.begin(DAC_addr);
 
 
 	Serial.begin(buad);
@@ -169,8 +176,3 @@ void loop()
 	//setCurrent_R(resistance);
 	dac.setVoltage(I_set,false);
 }
-
-
-
-
-

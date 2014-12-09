@@ -303,6 +303,7 @@ text(Message, ButtonX,ButtonY,rectWidth,rectHeight);
         // draw dividing line:
         stroke(255);
         line(0, partH*(i+1), width, partH*(i+1));
+	line(0,partH*(i+1)/2,width, partH*(i+1)/2);
  
         //println("\t"+mappedVal);   // <- uncomment this to debug values
        
