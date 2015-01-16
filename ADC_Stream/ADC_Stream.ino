@@ -4,6 +4,7 @@
 using namespace ArduinoJson::Generator;
 
 boolean DEBUG=false;
+String version ="1.0";
 
 //
 #define FASTADC 1
@@ -286,6 +287,21 @@ void loop()
 		Serial.println("EOL");
 		}
 
+		
+	}
+	else if (msg.equals("HH"))
+	{Serial.println("Measurement Board");
+		Serial.print("Firmware  Version:");
+		Serial.println(version);
+		Serial.println("Commands:");
+		Serial.println("HH : prints this massage");
+		Serial.println("AA : print Volt, Current, RPM, Power and a Timestamp (since last restart) in actual Units ([mV],[mA],[min^(-1)],[mW],[us])");
+		Serial.println("     Output is in JSON Style!!!");
+		Serial.println("Ax : prints only Analog Pin x bit value (x: 0-5)");
+		Serial.println("DD : toggle debug mode on and off");
+		msg="";
+		
+		
 		
 	}
 	else

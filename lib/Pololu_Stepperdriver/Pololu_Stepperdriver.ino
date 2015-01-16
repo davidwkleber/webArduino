@@ -6,7 +6,7 @@ const int	M0		=	5;
 const int	M1		=	6;
 const int	M2		=	7;
 
-unsigned long Msteps=1;
+unsigned long Msteps=2;
 String inputString="";
 long Number;
 long baud = 115200;
@@ -105,7 +105,7 @@ void backward(unsigned long TotalSteps)
 
 void forward(unsigned long TotalSteps)
 {
-	Serial.print("Backward Steps: ");
+	Serial.print("Forward Steps: ");
 	Serial.println(TotalSteps);
 	setStep(TotalSteps, false);
 	
@@ -114,7 +114,7 @@ void forward(unsigned long TotalSteps)
 void testfunktion1(long steps)
 {
 	//Msteps=1;
-	Serial.println(Msteps);
+	Serial.println(steps);
 	setMicrostep(Msteps);
 	setStep(8000*Msteps,true);	//one round 200 full steps
 	//delay(500);
@@ -178,7 +178,7 @@ void loop()
 		{
 			
 			Serial.println(i);
-			testfunktion1(5000);
+			testfunktion1(2000);
 
 		}
 		Serial.println(".");

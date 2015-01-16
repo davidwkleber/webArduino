@@ -1,5 +1,5 @@
 #include <Wire.h>
-#include <Adafruit_MCP4725.h>
+#include <Adafruit_MCP4725.h> //the library was modified [changed to: #define MCP4726_CMD_WRITEDAC (0x58) ] to use external Vref!
 //#include <math.h>
 
 //
@@ -12,15 +12,13 @@
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 #endif
 
+String version = "1.0";
 
 bool debug = false;
 static uint8_t DAC_addr = 0x60;
 // static char VrefSet = 0x18; //11000: Vref1;Vref0;PD1;PD0;G
 
-#ifdef MCP4726_CMD_WRITEDAC
-#undef MCP4726_CMD_WRITEDAC
-#define MCP4726_CMD_WRITEDAC (0x58)
-#endif
+
 
 
 int readA0;
@@ -34,7 +32,7 @@ int readAnalog;
 int resistance = 200;
 int I_set;
 
-String msg = "";
+String msg = "H";
 
 const long buad = 9600;
 
@@ -42,8 +40,8 @@ Adafruit_MCP4725 dac;
 float V_ref;
 
 float Vref()
-{ //Vin=3.001; Vref=Vin*1024/Vbit	
-	return analogRead(A3);
+{ //Vin=3.001; Vref=Vin*1024/Vbit
+	return analogRead(A2);
 }
 
 
@@ -63,7 +61,7 @@ void setCurrent_R(int res)
 	//Serial.print(", ");
 	//Serial.println(set);
 	
-	//correcte version
+	
 	
 	int set;
 	float Voltage =analogRead(A0);
@@ -84,7 +82,7 @@ void setCurrent_R(int res)
 	}
 	dac.setVoltage(set,false);
 	
-//}
+	//}
 }
 
 
@@ -133,9 +131,9 @@ void loop()
 	if (debug)
 	{
 		Serial.print("Number: ");
-	Serial.print(Number);
-	Serial.print(", msg: ");
-	Serial.println(msg);
+		Serial.print(Number);
+		Serial.print(", msg: ");
+		Serial.println(msg);
 	}
 	
 	
@@ -164,13 +162,33 @@ void loop()
 		debug=!debug;
 		msg="";
 	}
+	else if (msg.equals("H"))
+	{
+		Serial.println("Loadcontroller");
+		Serial.print("Firmware  Version:");
+		Serial.println(version);
+		Serial.println("Commands:");
+		Serial.println("H    : prints this massage");
+		Serial.println("Ixxxx: set Current to xxxx mA");
+		Serial.println("Rxxxx: set Resistance to xxx Ohm (not Implemented yet!!!)");
+		Serial.println("D    : toggle debug mode on and off");
+		msg="";
+		
+	}
 	// readA0=analogRead(A0);
 	//readA1=analogRead(A1);
 	//V_ref=Vref(readA2=analogRead(A2));
 	if (debug)
 	{
-	Serial.print("Resistance: ");
-	Serial.println(resistance);		
+		int Reg = MCP4726_CMD_WRITEDAC;
+		float VoltVref = 3.001*1024/Vref();
+		Serial.print("DAC Register: ");
+		Serial.println(Reg,HEX);
+		Serial.print("Vref [V]: ");
+		Serial.println(VoltVref);
+		Serial.println(Vref());
+		Serial.print("Resistance: ");
+		Serial.println(resistance);
 	}
 
 	//setCurrent_R(resistance);

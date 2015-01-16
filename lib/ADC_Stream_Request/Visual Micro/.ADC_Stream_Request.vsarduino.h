@@ -17,11 +17,10 @@
 #define __cplusplus
 extern "C" void __cxa_pure_virtual() {;}
 
-float Vref();
-void setCurrent_R(int res);
+void serialEvent();
 //
 //
 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\variants\standard\pins_arduino.h" 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino\arduino.h"
-#include "C:\Users\install\ownCloud\Eigenes\Programme\webArduino\Loadcontroller\Loadcontroller.ino"
+#include "C:\Users\install\ownCloud\Eigenes\Programme\webArduino\lib\ADC_Stream_Request\ADC_Stream_Request.ino"

@@ -28,7 +28,7 @@ int[]   min      = new int[numValues];
 int[]   max      = new int[numValues];
 color[] valColor = new color[numValues];
 float[] oldY = new float[numValues];
-int oldX =0; 
+float oldX =0; 
 int[] maxValue = new int[numValues];
 int[] minValue = new int[numValues];
 
@@ -284,10 +284,9 @@ text(Message, ButtonX,ButtonY,rectWidth,rectHeight);
         // draw lines:
         stroke(valColor[i]);
         strokeWeight(1);
-        xPos=int(oldX)+int(float(values[numValues])/1000.0);        //line(xPos, partH*(i+1), xPos, partH*(i+1) - mappedVal);
+        xPos=int(oldX)+int(float(values[numValues-1])/1000.0);        //line(xPos, partH*(i+1), xPos, partH*(i+1) - mappedVal);
         println("Time: ",values[numValues-1]);
         println("xPos: ",xPos);
-        println("oldX: ",oldX);
         line(oldX, oldY[i], xPos, partH*(i+1) - mappedVal);
         oldY[i] = partH*(i+1) - mappedVal;
         
