@@ -1,10 +1,24 @@
+/*
+#### change log####
+
+version 1.0.1
+.change to delta time instead of continuous time for timestamp
+.on restart Help massage is displayed
+.minor cosmetic changes
+
+version 1.0
+code freeze from development
+
+*/
+
+
 #include <JsonGenerator.h>
 #include <JsonParser.h>
 
 using namespace ArduinoJson::Generator;
 
 boolean DEBUG=false;
-String version ="1.0";
+String version ="1.0.1";
 
 //
 #define FASTADC 1
@@ -25,7 +39,7 @@ int readA5;
 
 int readAnalog;
 
-String msg = "";
+String msg = "HH";
 
 unsigned long lastTime = 0;
 long currTime= 0;
@@ -246,16 +260,17 @@ void loop()
 
 	else if (msg.equals("AA"))
 	{
+		currTime2 = micros();
 		//! Main Serial.
 		//! Reads the first three Analog Inputs and converts them into their corresponding Unit
 		readA0=toVolt(analogRead(A0));
 		readA1=toCurrent(analogRead(A1));
 		readA2=toRPM(analogRead(A2));
 		Power =readA0*readA1/1000; //>in milliWatt
-		
+		currTime = long(micros()-currTime2);
 		//! Start Time measurement for measuring the loop length
-		currTime2 = micros();
-		currTime = long(currTime2);
+		
+		
 		if(DEBUG)
 		{			
 			Serial.print("V: ");
@@ -295,9 +310,9 @@ void loop()
 		Serial.println(version);
 		Serial.println("Commands:");
 		Serial.println("HH : prints this massage");
-		Serial.println("AA : print Volt, Current, RPM, Power and a Timestamp (since last restart) in actual Units ([mV],[mA],[min^(-1)],[mW],[us])");
+		Serial.println("AA : print Volt, Current, RPM, Power and a Timestamp (since last restart) in actual Units ([mV],[mA],[1/min],[mW],[us])");
 		Serial.println("     Output is in JSON Style!!!");
-		Serial.println("Ax : prints only Analog Pin x bit value (x: 0-5)");
+		Serial.println("Ax : prints only Analog Pin x (bit value (x: 0-5))");
 		Serial.println("DD : toggle debug mode on and off");
 		msg="";
 		
@@ -310,9 +325,3 @@ void loop()
 	}
 
 }
-
-
-
-
-
-
