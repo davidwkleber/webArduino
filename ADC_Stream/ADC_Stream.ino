@@ -1,6 +1,10 @@
 /*
 #### change log####
 
+version 1.0.2
+.changed back to continuous timestamp
+
+
 version 1.0.1
 .change to delta time instead of continuous time for timestamp
 .on restart Help massage is displayed
@@ -267,7 +271,7 @@ void loop()
 		readA1=toCurrent(analogRead(A1));
 		readA2=toRPM(analogRead(A2));
 		Power =readA0*readA1/1000; //>in milliWatt
-		currTime = long(micros()-currTime2);
+		currTime = long(currTime2);
 		//! Start Time measurement for measuring the loop length
 		
 		
