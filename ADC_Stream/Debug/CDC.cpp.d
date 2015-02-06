@@ -1,5 +1,5 @@
  \
- C:\Users\install\AppData\Local\VMicro\Arduino\Builds\ADC_Stream\uno\CDC.cpp.o:  \
+ C:\Users\mw7\AppData\Local\VMicro\Arduino\Builds\ADC_Stream\uno\CDC.cpp.o:  \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\cores\arduino\CDC.cpp \
   C:\Program\ Files\ (x86)\Arduino\hardware\arduino\cores\arduino\/Platform.h \
   C:\Program\ Files\ (x86)\Arduino\hardware\arduino\cores\arduino\/Arduino.h \

@@ -1,5 +1,11 @@
+
+
 /*
 #### change log####
+version 1.0.3
++change Baudrate via serial command CBxxxxxxx
++read actual Baudrate via serial command CB
+
 
 version 1.0.2
 .changed back to continuous timestamp
@@ -15,14 +21,14 @@ code freeze from development
 
 */
 
-
+#include <EEPROM.h>
 #include <JsonGenerator.h>
 #include <JsonParser.h>
 
 using namespace ArduinoJson::Generator;
 
 boolean DEBUG=false;
-String version ="1.0.2";
+String version ="1.0.3";
 
 //
 #define FASTADC 1
@@ -52,9 +58,24 @@ unsigned long currTime1 = 0;
 unsigned long currTime2 = 0;
 unsigned long meassureTime = 0;
 
-static long buad = 115200;
+long buad;
+static long buadRate[]={9600,57600,115200,2000000};
+const int buadRateASize=4;
 
-
+void change BaudRate(long buad){
+  int wantedVal =-1;
+  for (int i =0; i<sizeof(buadRate);i++){
+   if ( buad == buadRate[i])
+   {
+    break; 
+   }
+   else
+   {
+   buad =9600;
+   }
+   Serial.println(sizeof(buadRate)
+  }
+}
 
 
 long readVcc() {
@@ -309,7 +330,24 @@ void loop()
 		
 	}
 	else if (msg.equals("HH"))
-	{Serial.println("Measurement Board");
+	{        
+                Serial.println("Measurement Board");
+		Serial.print("Firmware  Version:");
+		Serial.println(version);
+		Serial.println("Commands:");
+		Serial.println("HH : prints this massage");
+		Serial.println("AA : print Volt, Current, RPM, Power and a Timestamp (since last restart) in actual Units ([mV],[mA],[1/min],[mW],[us])");
+		Serial.println("     Output is in JSON Style!!!");
+		Serial.println("Ax : prints only Analog Pin x (bit value (x: 0-5))");
+		Serial.println("DD : toggle debug mode on and off");
+		msg="";
+		
+		
+		
+	}
+        else if (msg.equals("BB"))
+	{        
+                Serial.println("Measurement Board");
 		Serial.print("Firmware  Version:");
 		Serial.println(version);
 		Serial.println("Commands:");

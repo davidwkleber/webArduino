@@ -10,16 +10,19 @@
 
 #define __AVR_ATmega328p__
 #define __AVR_ATmega328P__
-#define ARDUINO 101
+#define ARDUINO 105
 #define ARDUINO_MAIN
 #define F_CPU 16000000L
 #define __AVR__
-#define __cplusplus
 extern "C" void __cxa_pure_virtual() {;}
 
+long readVcc();
+int toVolt(int reading);
+long toCurrent(int reading);
+long toRPM(int reading);
 //
 //
 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\variants\standard\pins_arduino.h" 
 #include "C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino\arduino.h"
-#include "C:\Users\install\ownCloud\Eigenes\Programme\webArduino\lib\ADC_Stream\ADC_Stream.ino"
+#include "O:\Eigene Dokumente\GitHub\webArduino\lib\ADC_Stream\ADC_Stream.ino"
